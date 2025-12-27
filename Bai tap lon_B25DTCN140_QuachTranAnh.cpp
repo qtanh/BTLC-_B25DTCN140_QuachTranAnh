@@ -2,79 +2,78 @@
 #include <vector>
 #include <string>
 using namespace std;
-class Entity {
+class Classroom {
 public:
-    virtual void input() = 0;
-    virtual void display() = 0;
-    virtual string getID() = 0;
-    virtual ~Entity() {}
-};
-class Classroom : public Entity {
-private:
-    string classId, className, major, classification;
-public:
+    string id, name, major, type;
     void input() {
-        cout << "ID: "; cin >> classId; cin.ignore();
-        cout << "Name: "; getline(cin, className);
+        cout << "ID: "; cin >> id; cin.ignore();
+        cout << "Name: "; getline(cin, name);
         cout << "Major: "; getline(cin, major);
-        cout << "Type: "; getline(cin, classification);
+        cout << "Type: "; getline(cin, type);
     }
     void display() {
-        cout << "[Class] " << classId << " - " << className << endl;
+        cout << id << " - " << name << endl;
     }
-    string getID() { return classId; }
 };
-class Student : public Entity {
-private:
-    string studentId, fullName, dob, email, phone;
+class Student {
 public:
+    string id, name, dob, mail, phone;
     void input() {
-        cout << "ID: "; cin >> studentId; cin.ignore();
-        cout << "Name: "; getline(cin, fullName);
+        cout << "ID: "; cin >> id; cin.ignore();
+        cout << "Name: "; getline(cin, name);
         cout << "DOB: "; getline(cin, dob);
-        cout << "Email: "; getline(cin, email);
+        cout << "Mail: "; getline(cin, mail);
         cout << "Phone: "; getline(cin, phone);
     }
     void display() {
-        cout << "[Student] " << studentId << " - " << fullName << endl;
+        cout << id << " - " << name << endl;
     }
-    string getID() { return studentId; }
 };
-void manage(vector<Entity*>& list, string type) {
-    int choice;
+void manageC(vector<Classroom>& v) {
+    int c;
     while (true) {
-        cout << "\n1. Display\n2. Add\n3. Delete\n4. Update\n0. Back\nSelect: ";
-        cin >> choice;
-        if (choice == 0) break;
-        if (choice == 1) {
-            for (int i = 0; i < (int)list.size(); i++) list[i]->display();
-        } else if (choice == 2) {
-            Entity* obj = (type == "C") ? (Entity*)new Classroom() : (Entity*)new Student();
-            obj->input();
-            list.push_back(obj);
-        } else {
-            string id; cout << "Enter ID: "; cin >> id;
-            for (int i = 0; i < (int)list.size(); i++) {
-                if (list[i]->getID() == id) {
-                    if (choice == 3) { delete list[i]; list.erase(list.begin() + i); }
-                    else list[i]->input();
+        cout << "\nClass: \n1.Show \n2.Add \n3.Del \n4.Edit \n0.Back\n Your selection: "; cin >> c;
+        if (c == 0) break;
+        if (c == 1) for (int i = 0; i < (int)v.size(); i++) v[i].display();
+        else if (c == 2) { Classroom o; o.input(); v.push_back(o); }
+        else {
+            string s; cout << "ID: "; cin >> s;
+            for (int i = 0; i < (int)v.size(); i++)
+                if (v[i].id == s) {
+                    if (c == 3) v.erase(v.begin() + i);
+                    else v[i].input();
                     break;
                 }
-            }                   
+        }
+    }
+}
+void manageS(vector<Student>& v) {
+    int c;
+    while (true) {
+        cout << "\nStudent: \n1.Show \n2.Add \n3.Del \n4.Edit \n0.Back\n Your decision: "; cin >> c;
+        if (c == 0) break;
+        if (c == 1) for (int i = 0; i < (int)v.size(); i++) v[i].display();
+        else if (c == 2) { Student o; o.input(); v.push_back(o); }
+        else {
+            string s; cout << "ID: "; cin >> s;
+            for (int i = 0; i < (int)v.size(); i++)
+                if (v[i].id == s) {
+                    if (c == 3) v.erase(v.begin() + i);
+                    else v[i].input();
+                    break;
+                }
         }
     }
 }
 int main() {
-    vector<Entity*> classes, students;
-    int cmd;
+    vector<Classroom> l;
+    vector<Student> s;
+    int m;
     while (true) {
-        cout << "\n1. Class\n2. Student\n0. Exit\nChoice: ";
-        cin >> cmd;
-        if (cmd == 1) manage(classes, "C");
-        else if (cmd == 2) manage(students, "S");
+        cout << "\n1.Class \n2.Student \n0.Exit\n Your choice: "; cin >> m;
+        if (m == 1) manageC(l);
+        else if (m == 2) manageS(s);
         else break;
     }
-    for (int i = 0; i < (int)classes.size(); i++) delete classes[i];
-    for (int i = 0; i < (int)students.size(); i++) delete students[i];
     return 0;
-} 
+}
