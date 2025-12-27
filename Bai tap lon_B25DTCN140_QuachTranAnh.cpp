@@ -12,7 +12,7 @@ public:
         cout << "Type: "; getline(cin, type);
     }
     void display() {
-        cout << id << " - " << name << endl;
+        cout << id << "\t" << name << "\t" << major << "\t" << type << endl;
     }
 };
 class Student {
@@ -26,16 +26,18 @@ public:
         cout << "Phone: "; getline(cin, phone);
     }
     void display() {
-        cout << id << " - " << name << endl;
+        cout << id << "\t" << name << "\t" << dob << "\t" << mail << "\t" << phone << endl;
     }
 };
 void manageC(vector<Classroom>& v) {
     int c;
     while (true) {
-        cout << "\nClass: \n1.Show \n2.Add \n3.Del \n4.Edit \n0.Back\n Your selection: "; cin >> c;
+        cout << ""\nClass: \n1.Show \n2.Add \n3.Del \n4.Edit \n0.Back\n Your selection: "; cin >> c;
         if (c == 0) break;
-        if (c == 1) for (int i = 0; i < (int)v.size(); i++) v[i].display();
-        else if (c == 2) { Classroom o; o.input(); v.push_back(o); }
+        if (c == 1) {
+            cout << "\nID\tNAME\tMAJOR\tTYPE" << endl;
+            for (int i = 0; i < (int)v.size(); i++) v[i].display();
+        } else if (c == 2) { Classroom o; o.input(); v.push_back(o); }
         else {
             string s; cout << "ID: "; cin >> s;
             for (int i = 0; i < (int)v.size(); i++)
@@ -52,8 +54,10 @@ void manageS(vector<Student>& v) {
     while (true) {
         cout << "\nStudent: \n1.Show \n2.Add \n3.Del \n4.Edit \n0.Back\n Your decision: "; cin >> c;
         if (c == 0) break;
-        if (c == 1) for (int i = 0; i < (int)v.size(); i++) v[i].display();
-        else if (c == 2) { Student o; o.input(); v.push_back(o); }
+        if (c == 1) {
+            cout << "\nID\tNAME\t\tDOB\tMAIL\tPHONE" << endl;
+            for (int i = 0; i < (int)v.size(); i++) v[i].display();
+        } else if (c == 2) { Student o; o.input(); v.push_back(o); }
         else {
             string s; cout << "ID: "; cin >> s;
             for (int i = 0; i < (int)v.size(); i++)
@@ -66,11 +70,10 @@ void manageS(vector<Student>& v) {
     }
 }
 int main() {
-    vector<Classroom> l;
-    vector<Student> s;
+    vector<Classroom> l; vector<Student> s;
     int m;
     while (true) {
-        cout << "\n1.Class \n2.Student \n0.Exit\n Your choice: "; cin >> m;
+        cout << "\n1.Class 2.Student 0.Exit: "; cin >> m;
         if (m == 1) manageC(l);
         else if (m == 2) manageS(s);
         else break;
